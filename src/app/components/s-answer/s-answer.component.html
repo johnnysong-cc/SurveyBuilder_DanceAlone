@@ -1,1 +1,84 @@
-<p>s-answer works!</p>
+<div class="main">
+  <div class="leftList">
+    <nz-list>
+      <nz-list-item *ngFor="let item of surveyList" [style.backgroundColor]="item.chose ? 'gold' : '#fff'"
+        (click)="choseSurvey(item)">
+        {{item.title}} |
+        <div style="float: right">{{item.hasFinished ? 'Touched' : 'Untouched'}}</div>
+      </nz-list-item>
+    </nz-list>
+  </div>
+
+  <div class="content">
+    <div class="topBox">
+      <form nz-form [formGroup]="topForm">
+        <div nz-row [nzGutter]="{ xs: 8, sm: 8, md: 8, lg: 8, xl: 8, xxl: 8 }" nzAlign="middle">
+          <div nz-col nzSpan="6">
+            <nz-form-item nzFlex>
+              <nz-form-label [nzSpan]="8" nzFor="startDate">Start Date</nz-form-label>
+              <nz-form-control [nzSpan]="16">
+                <input formControlName="startDate" nz-input readonly />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="6">
+            <nz-form-item nzFlex>
+              <nz-form-label [nzSpan]="8" nzFor="endDate">End Date</nz-form-label>
+              <nz-form-control [nzSpan]="16">
+                <input formControlName="endDate" nz-input readonly />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="6">
+            <nz-form-item nzFlex>
+              <nz-form-label [nzSpan]="8" nzFor="creator">Creator</nz-form-label>
+              <nz-form-control [nzSpan]="16">
+                <input formControlName="creator" nz-input readonly />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="4">
+            <nz-form-item nzFlex>
+              <nz-form-label [nzSpan]="8" nzFor="isExpired">IsExpired</nz-form-label>
+              <nz-form-control [nzSpan]="16">
+                <nz-switch formControlName="isExpired" nzCheckedChildren="Y"
+                           nzUnCheckedChildren="N" [nzDisabled]="true"></nz-switch>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="body">
+      <div class="questionBox" *ngFor="let item of questionList; let i = index">
+        <div class="question">{{(i + 1) + '.' + item.questionText}}</div>
+        <div class="choices" *ngIf="item.questionType === 'MCQ'">
+          <nz-radio-group [(ngModel)]="item.choiceAnswer">
+            <label class="verticalRadio" nz-radio [nzValue]="choice" *ngFor="let choice of item.choicesArr">
+              {{ choice }}
+            </label>
+          </nz-radio-group>
+        </div>
+        
+        <div class="choices" *ngIf="item.questionType === 'TFQ'">
+          <nz-radio-group [(ngModel)]="item.isCorrect">
+            <label nz-radio nzValue="True">True</label>
+            <label nz-radio nzValue="False">False</label>
+          </nz-radio-group>
+        </div>
+        
+      </div>
+    </div>
+
+    <div class="footer">
+      <button *ngIf="curSurvey && curSurvey.hasFinished"
+              nz-button nzType="default" (click)="submit()">ReSubmit
+            </button>
+      <button *ngIf="curSurvey && (!curSurvey.hasFinished)"
+              nz-button nzType="default" (click)="submit()">Submit
+            </button>
+    </div>
+    
+  </div>
+</div>
