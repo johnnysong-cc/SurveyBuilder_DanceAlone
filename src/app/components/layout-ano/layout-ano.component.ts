@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
-  selector: 'app-layout-ano',
-  templateUrl: './layout-ano.component.html',
-  styleUrls: ['./layout-ano.component.css']
+  selector: 'app-layout-simple',
+  templateUrl: './layout-simple.component.html',
+  styleUrls: ['./layout-simple.component.css'],
 })
-export class LayoutAnoComponent {
-
+export class LayoutAnoComponent implements OnInit {
+  loginUserType = "Unregistered User";
+  ngOnInit(): void { }
 }

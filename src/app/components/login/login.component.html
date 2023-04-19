@@ -1,1 +1,37 @@
-<p>login works!</p>
+<div class="container w-xxl w-auto-xs">
+  <div class="m-b-lg">
+    <div class="wrapper text-center">
+      <h1>Sign In</h1>
+    </div>
+    <form name="form" class="form-validation">
+      <div class="text-danger wrapper text-center" ngShow="authError">
+        {{authError}}
+      </div>
+      <div class="list-group list-group-sm" style="margin-bottom: 15px;">
+        <div class="list-group-item">
+          <input type="text" placeholder="Username" class="form-control no-border" required [(ngModel)]="form.username"
+            [ngModelOptions]="{standalone: true}">
+          <!-- 
+            - By default, two-way data binding with ngModel creates a binding linked to the parent form/directive
+            - Use `standalone: true`: use ngModel as a standalone directive that is not linked to a parent form/directive.
+              Can be useful when using ngModel in a standalone input field that is not part of a larger form.
+           -->
+        </div>
+        <div class="list-group-item">
+          <input type="password" placeholder="Password" class="form-control no-border" required
+            [(ngModel)]="form.password" [ngModelOptions]="{standalone: true}">
+        </div>
+      </div>
+      <button type="submit" class="btn btn-small btn-primary btn-block" (click)="login()">Log in</button>
+      <a routerLink="/reg">
+        <button class="btn btn-small btn-primary btn-block" style="float: right;">
+          Sign Up
+        </button>
+      </a>
+      <!-- <div class="text-center m-t m-b"><a ui-sref="access.forgotpwd">Forgot password?</a></div> -->
+      <!-- <div class="line line-dashed"></div>
+      <p class="text-center"><small>Do not have an account?</small></p>
+      <button routerLink="/reg" class="btn btn-small btn-default btn-block">Create an account</button> -->
+    </form>
+  </div>
+</div>

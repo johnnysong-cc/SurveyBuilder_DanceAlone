@@ -1,1 +1,33 @@
-<p>layout-user works!</p>
+<div class="main">
+  <div class="title">Survey Builder
+    <button class="btn_style" nz-button nzType="default" (click)="logout()">Logout</button>
+    <span>Login：{{loginUser}} ( {{loginUserType}} )</span>
+  </div>
+  <div class="body">
+    <div class="leftBar">
+      <div class="iconBox" [style.backgroundColor]="curBox[0] ? 'gold' : 'beige'" (click)="chooseIcon(0)">
+        <img alt="icon for quesiton bank" src="assets/problem.png" />
+        Question Bank
+      </div>
+      <div class="iconBox" [style.backgroundColor]="curBox[1] ? 'gold' : 'beige'" (click)="chooseIcon(1)">
+        <img alt="icon for survey bank" src="assets/survey.png" />
+        Survey Bank
+      </div>
+      <div class="iconBox" [style.backgroundColor]="curBox[2] ? 'gold' : 'beige'" (click)="chooseIcon(2)">
+        <img alt="icon for survey responses" src="assets/answer.png" />
+        Survey Responses
+      </div>
+    </div>
+    <div class="rightContent">
+      <div class="content" *ngIf="curBox[0]">
+        <app-question-management></app-question-management>
+      </div>
+      <div class="content" *ngIf="curBox[1]">
+        <app-survey-management></app-survey-management>
+      </div>
+      <div class="content" *ngIf="curBox[2]">
+        <app-survey-answer [flag]="'1'"></app-survey-answer>
+      </div>
+    </div>
+  </div>
+</div>

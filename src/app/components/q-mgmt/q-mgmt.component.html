@@ -1,1 +1,89 @@
-<p>q-mgmt works!</p>
+<div class="main">
+  <div class="toolBtn">
+    <button nz-button nzType="default" (click)="addQuestion()">Add</button>
+  </div>
+  <div class="body">
+    <div class="questionBox" *ngFor="let item of questionList; let i = index">
+      <div class="boxBtn">
+        <button nz-button nzType="default" (click)="updateQuestion(item)">Update</button>
+        <button nz-button nzType="default" (click)="deleteQuestion(item)">Delete</button>
+      </div>
+      <div class="question">{{(i + 1) + '.' + item.questionText}}</div>
+      <div class="choices" *ngIf="item.questionType === 'MCQ'">
+        <nz-radio-group [(ngModel)]="item.choiceAnswer">
+          <label class="verticalRadio" nz-radio [nzValue]="choice" *ngFor="let choice of item.choicesArr">
+            {{ choice }}
+          </label>
+        </nz-radio-group>
+      </div>
+      <div class="choices" *ngIf="item.questionType === 'TFQ'">
+        <nz-radio-group [(ngModel)]="item.isCorrect">
+          <label nz-radio nzValue="True">True</label>
+          <label nz-radio nzValue="False">False</label>
+        </nz-radio-group>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add/Update Pop-up Window -->
+<nz-modal [(nzVisible)]="showAUBox" [nzTitle]="curTitle" (nzOnCancel)="handleAddCancel()" (nzOnOk)="handleAddOk()">
+  <ng-container *nzModalContent>
+    <form nz-form [formGroup]="validateForm">
+      <nz-form-item>
+        <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="questionType">Question Type</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <nz-select formControlName="questionType" id="questionType">
+            <nz-option nzValue="MCQ" nzLabel="MCQ"></nz-option>
+            <nz-option nzValue="TFQ" nzLabel="TFQ"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="questionText">Question Text</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <textarea nz-input formControlName="questionText" nzAutosize></textarea>
+        </nz-form-control>
+      </nz-form-item>
+
+      <div *ngIf="validateForm.value.questionType === 'MCQ'">
+        <nz-form-item *ngFor="let control of listOfControl; let i = index">
+          <nz-form-label *ngIf="i == 0" [nzSm]="8" [nzXs]="24" nzRequired nzFor="control.controlInstance">Single
+            Choices</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24" [nzOffset]="i === 0 ? 0 : 8">
+            <input nz-input [formControlName]="control.controlInstance" style="width: 90%" />
+            <span nz-icon nzType="minus-circle-o" class="dynamic-delete-button"
+              (click)="removeChoice(control, $event)"></span>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 16, offset: 8 }">
+            <button nz-button nzType="dashed" class="add-button" (click)="addChoice($event)">
+              <span nz-icon nzType="plus"></span>
+              Add Choice
+            </button>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="questionAnswer">QuestionAnswer</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <input nz-input formControlName="questionAnswer" style="width: 100%" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div *ngIf="validateForm.value.questionType === 'TFQ'">
+        <nz-form-item>
+          <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="questionAnswer">QuestionAnswer</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <nz-radio-group formControlName="questionAnswer">
+              <label nz-radio nzValue="True">True</label>
+              <label nz-radio nzValue="False">False</label>
+            </nz-radio-group>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </form>
+  </ng-container>
+</nz-modal>
