@@ -1,3 +1,4 @@
+<h1 class="container w-xxl" style="text-align: center; padding-top: 2em;">Welcome to Survey Builder</h1>
 <div class="container w-xxl w-auto-xs">
   <div class="m-b-lg">
     <div class="wrapper text-center">
@@ -28,10 +29,11 @@
           Sign Up
         </button>
       </a>
-      <!-- <div class="text-center m-t m-b"><a ui-sref="access.forgotpwd">Forgot password?</a></div> -->
-      <!-- <div class="line line-dashed"></div>
-      <p class="text-center"><small>Do not have an account?</small></p>
-      <button routerLink="/reg" class="btn btn-small btn-default btn-block">Create an account</button> -->
+
+      <div class="text-center wrapper-xl">
+        <div>You don't even need an account to participate in existing surveys 😊</div>
+        <a class="btn btn-primary" [routerLink]="['/homeAnonymous']">Click to participate</a>
+      </div>
     </form>
   </div>
 </div>

@@ -14,6 +14,7 @@ export class SAnswerComponent implements OnInit, OnChanges {
   surveyList: any[] = [];
   curSurvey: any = null;
   topForm: UntypedFormGroup;
+  creator: string = '';
   questionList: any[] = []; // quesions of a survey
   //#endregion
 
@@ -34,6 +35,11 @@ export class SAnswerComponent implements OnInit, OnChanges {
     if(changes && changes['flag'] && this.flag){
       // Registered user
       if(this.flag==='1'){
+        /**
+         * Checking the authentication periodically because
+         * - authentication status may change in the runtime
+         * - the user may log out in another tab
+         */
         const timer = setInterval(() => {
           if(localStorage.getItem('token')){
             clearInterval(timer);
@@ -55,17 +61,17 @@ export class SAnswerComponent implements OnInit, OnChanges {
   private getOwnSurveys(): void{
     this.infoService.getOwnSurveys().subscribe({
       next: (res: any) => {
-        this.surveyList = res.map((survey:any)=>{
-          survey.isExpired = survey.isExpired ? "Y" : "N";
-          survey.isVisible = survey.isVisible ? "Y" : "N";
-          survey.chosen = false;
-          if(survey.questions)
-            survey.questions = this.recombineQuestion(survey.questions);
-          if(survey.responses && survey.responses.length !== 0)
-            survey.hasFinished = true;
+        this.surveyList = res.map((s:any)=>{
+          s.isExpired = s.isExpired ? "Y" : "N";
+          s.isVisible = s.isVisible ? "Y" : "N";
+          s.chosen = false;
+          if(s.questions)
+            s.questions = this.recombineQuestion(s.questions);
+          if(s.responses && s.responses.length !== 0)
+            s.hasFinished = true;
           else
-            survey.hasFinished = false;
-          return survey;
+            s.hasFinished = false;
+          return s;
         });
         this.chooseSurvey(this.surveyList[0]); // select the first survey by default
       },
@@ -78,17 +84,17 @@ export class SAnswerComponent implements OnInit, OnChanges {
   private getAllVisibleSurvey(): void{
     this.infoService.getAllVisibleSurvey().subscribe({
       next: (res: any) => {
-        this.surveyList = res.map((survey:any)=>{
-          survey.isExpired = survey.isExpired ? "Y" : "N";
-          survey.isVisible = survey.isVisible ? "Y" : "N";
-          survey.chosen = false;
-          if(survey.questions)
-            survey.questions = this.recombineQuestion(survey.questions);
-          if(survey.responses && survey.responses.length !== 0)
-            survey.hasFinished = true;
+        this.surveyList = res.map((s:any)=>{
+          s.isExpired = s.isExpired ? "Y" : "N";
+          s.isVisible = s.isVisible ? "Y" : "N";
+          s.chosen = false;
+          if(s.questions)
+            s.questions = this.recombineQuestion(s.questions);
+          if(s.responses && s.responses.length !== 0)
+            s.hasFinished = true;
           else
-            survey.hasFinished = false;
-          return survey;
+            s.hasFinished = false;
+          return s;
         });
         this.chooseSurvey(this.surveyList[0]); // select the first survey by default
       },

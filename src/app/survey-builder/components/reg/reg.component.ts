@@ -2,7 +2,8 @@ import {Component} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
-
+import { backendUrl } from '../../services/config';
+import { Router } from '@angular/router';
 @Component({
   standalone: true,
   selector: 'app-reg',
@@ -11,11 +12,12 @@ import {RouterModule} from '@angular/router';
   imports: [FormsModule, RouterModule]
 })
 export class RegComponent {
-  constructor (private http: HttpClient) {}
   authError = "";
   form = {username: "", email: "", password: ""}
-  url = "http://localhost:3000/users/register";
-
+  url = backendUrl+"/users/register";
+  
+  constructor (private http: HttpClient, private router:Router) {}
+  
   signup = () => {
     /**
      * `this.http.post()`: send a POST request to the specified URL
@@ -27,7 +29,7 @@ export class RegComponent {
       next: (res: any) => {
         console.log(res);
         this.authError = res.message;
-        window.location.href = "http://localhost:4200/login";
+        this.router.navigate(['/login']);
       },
       error: (err) => {
         console.log(err);

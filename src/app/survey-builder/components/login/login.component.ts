@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import {Router, RouterModule} from '@angular/router';
+import { backendUrl } from '../../services/config';
 
 @Component({
   standalone: true,
@@ -13,11 +14,13 @@ import {Router, RouterModule} from '@angular/router';
 export class LoginComponent {
   authError = "";
   form = {username: '', password: ''};
-  url = "http://localhost:3000/users/login";
+  url = backendUrl+"/users/login";
 
   constructor (private http: HttpClient, private router: Router) {}
 
   login = () => {
+    // store username in local storage
+    localStorage.setItem("username", this.form.username);
     // console.log(this.form); // for debugging
     this.http.post(this.url, this.form).subscribe({
       next: (res: any) => {

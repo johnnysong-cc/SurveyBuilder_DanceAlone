@@ -6,6 +6,6 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./layout-ano.component.css'],
 })
 export class LayoutAnoComponent implements OnInit {
-  loginUserType = "Unregistered User";
+  loginUserType = "Anonymous User";
   ngOnInit(): void { }
 }

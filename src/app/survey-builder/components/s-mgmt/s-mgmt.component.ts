@@ -13,10 +13,10 @@ export class SMgmtComponent implements OnInit {
   //#region properties
   surveyList: any[] = [];
   questionList: any[] = [];
-  topForm: UntypedFormGroup;
   showAUBox = false;
   curTitle: any = null;
   curSurveyInfo: any = null;
+  topForm: UntypedFormGroup;
   AUForm: UntypedFormGroup;
   allQuestionList: any[] = []; // 全部题目集
   //#endregion
@@ -36,18 +36,17 @@ export class SMgmtComponent implements OnInit {
       startDate: [null, Validators.required],
       endDate: [null, Validators.required],
       creator: [null, Validators.required],
-      isExpired: ['Y'],
+      isExpired: ['N'],
       isVisible: ['Y']
     });    
   }
-
 
   ngOnInit(): void {
     const timer = setInterval(() => {
       if (localStorage.getItem('token')) {
         clearInterval(timer);
         this.viewMyQuestions(); // Retrieve all questions of the user
-        this.getOwnSurveys(); // Retrieve all surveys of the user
+        this.getOwnSurveys();   // Retrieve all surveys of the user
       }
     }, 500);
   }
@@ -89,6 +88,14 @@ export class SMgmtComponent implements OnInit {
     this.curTitle = "Update";
     this.showAUBox = true;
   }
+
+  //#region toggle visibility of a survey
+  toggleVisibility(survey: any, e: any) {
+    e.preventDefault();
+    this.AUForm.patchValue({isVisible: survey.isVisible === 'Y' ? 'N' : 'Y'});
+  }
+  //#endregion
+
   //#endregion
 
   //#region delete a survey
@@ -117,20 +124,19 @@ export class SMgmtComponent implements OnInit {
 
   //Retrieve all surveys of the user
   private getOwnSurveys() {
-    this.infoService.getOwnSurveys().subscribe(res => {
-      this.surveyList = res.map((survey: any) => {
-        survey.isExpired = survey.isExpired ? 'Y' : 'N';
-        survey.isVisible = survey.isVisible ? 'Y' : 'N';
-        survey.chose = false;
-        if (survey.questions) {
-          survey.questions = this.recombineQuestion(survey.questions);
-        }
-        return survey;
-      });
-      // 默认
-      this.chooseSurvey(this.surveyList[0]);
-    }, err => {
-      console.log(err);
+    this.infoService.getOwnSurveys().subscribe({
+      next: res => {
+        this.surveyList = res.map((survey: any) => {
+          survey.isExpired = survey.isExpired ? 'Y' : 'N';
+          survey.isVisible = survey.isVisible ? 'Y' : 'N';
+          survey.chosen = false;
+          if(survey.questions)
+            survey.questions = this.recombineQuestion(survey.questions);
+          return survey;
+        });
+        this.chooseSurvey(this.surveyList[0]);    // default: choose the first survey
+      },
+      error: err => console.error(err)
     });
   }
 //#endregion
@@ -186,7 +192,7 @@ export class SMgmtComponent implements OnInit {
     ].concat(
       data.map(d => selected.map(k => d[k]))
     );
-    newdata.map((d, i) => d.unshift(i > 0 ? i : '序号'));
+    newdata.map((d, i) => d.unshift(i > 0 ? i : 'No.'));
     return newdata;
   }
   //#endregion
@@ -197,17 +203,18 @@ export class SMgmtComponent implements OnInit {
     this.questionList = [];
 
     this.surveyList.map(survey => {
+      // console.log(survey);  //for debugging
       if (survey._id === item._id) {
-        survey.chose = true;
+        survey.chosen = true;
         this.questionList = survey.questions;
         this.topForm.patchValue({
-          startDate: survey.startDate,
-          endDate: survey.endDate,
+          startDate: this.formatDateToYMD(survey.startDate),
+          endDate: this.formatDateToYMD(survey.endDate),
           creator: survey.creator,
           isExpired: survey.isExpired
         });
       } else
-        survey.chose = false;
+        survey.chosen = false;
       return survey;
     });
   }
@@ -257,7 +264,7 @@ export class SMgmtComponent implements OnInit {
 
   handleAddOk() {
     const value = this.AUForm.value;
-    // 获取所勾选的问题列表
+    // Retrieve the selected questions
     let newSurveyQuestionIds: any[] = [];
     this.allQuestionList.map((item: any) => {
       if(item.isSelected) newSurveyQuestionIds.push(item._id);

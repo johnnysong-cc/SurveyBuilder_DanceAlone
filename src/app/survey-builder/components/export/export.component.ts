@@ -5,7 +5,7 @@ import * as moment from 'moment';
 @Component({
   selector: 'app-export',
   templateUrl: './export.component.html',
-  styleUrls: ['./export.component.css']
+  styleUrls: ['./export.component.less']
 })
 export class ExportComponent implements OnInit {
   @Input()  // define input properties for the component

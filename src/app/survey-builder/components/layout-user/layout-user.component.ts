@@ -9,17 +9,13 @@ import {InfoService} from '../../services/info.service';
 })
 export class LayoutUserComponent implements OnInit {
   curBox = [true, false, false];
-  loginUser = "User1";
+  loginUser = localStorage.getItem("username");
   loginUserType = "Registered User";
 
   constructor (private route: ActivatedRoute, private router: Router, private infoService: InfoService) {
   }
 
   ngOnInit(): void {
-    // this.loginUser = this.route.snapshot.queryParams['loginUser'];
-    // if (!this.loginUser) {
-    //   this.router.navigate(['/login']);
-    // }
     const token = localStorage.getItem("token");
     if (!token) {
       this.router.navigate(['/login']);

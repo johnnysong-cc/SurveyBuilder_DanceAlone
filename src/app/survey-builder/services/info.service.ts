@@ -1,14 +1,15 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {backendUrl} from './config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InfoService {
-  private questionUrl = "http://localhost:3000/questions";
-  private surveyUrl = "http://localhost:3000/surveys";
-  private userUrl = "http://localhost:3000/users";
+  private questionUrl = backendUrl+"/questions";
+  private surveyUrl = backendUrl+"surveys";
+  private userUrl = backendUrl+"/users";
   private jwt: string | null = "";
 
   constructor (private http: HttpClient) {}
