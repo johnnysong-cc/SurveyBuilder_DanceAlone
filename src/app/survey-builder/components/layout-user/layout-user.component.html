@@ -20,13 +20,13 @@
     </div>
     <div class="rightContent">
       <div class="content" *ngIf="curBox[0]">
-        <app-question-management></app-question-management>
+        <app-q-mgmt></app-q-mgmt>
       </div>
       <div class="content" *ngIf="curBox[1]">
-        <app-survey-management></app-survey-management>
+        <app-s-mgmt></app-s-mgmt>
       </div>
       <div class="content" *ngIf="curBox[2]">
-        <app-survey-answer [flag]="'1'"></app-survey-answer>
+        <app-s-answer [flag]="'1'"></app-s-answer>
       </div>
     </div>
   </div>

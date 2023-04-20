@@ -1,36 +1,36 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import {HttpClientModule} from '@angular/common/http'
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {FormsModule} from '@angular/forms';
+import {HttpClientModule} from '@angular/common/http';
+import {RouterModule} from '@angular/router';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { LayoutUserComponent } from './components/layout-user/layout-user.component';
-import { LayoutAnoComponent } from './components/layout-ano/layout-ano.component';
-import { LoginComponent } from './components/login/login.component';
-import { RegComponent } from './components/reg/reg.component';
-import { QMgmtComponent } from './components/q-mgmt/q-mgmt.component';
-import { SMgmtComponent } from './components/s-mgmt/s-mgmt.component';
-import { SAnswerComponent } from './components/s-answer/s-answer.component';
-import { ExportComponent } from './components/export/export.component';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {NZ_I18N} from 'ng-zorro-antd/i18n';
+import {en_US} from 'ng-zorro-antd/i18n';
+import {registerLocaleData} from '@angular/common';
+import en from '@angular/common/locales/en';
+import {SurveyBuilderModule} from './survey-builder/survey-builder.module';
+
+registerLocaleData(en);
 
 @NgModule({
   declarations: [
-    AppComponent,
-    // LayoutUserComponent,
-    LayoutAnoComponent,
-    // LoginComponent,
-    // RegComponent,
-    QMgmtComponent,
-    SMgmtComponent,
-    SAnswerComponent,
-    ExportComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    BrowserAnimationsModule,
+    FormsModule,
+    RouterModule,
+    HttpClientModule,
+    SurveyBuilderModule
   ],
-  providers: [],
+  providers: [
+    {provide: NZ_I18N, useValue: en_US}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

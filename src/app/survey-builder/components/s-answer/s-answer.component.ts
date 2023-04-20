@@ -155,7 +155,7 @@ export class SAnswerComponent implements OnInit, OnChanges {
   /**
    * Submit the survey
    */
-  submitSurvey(): void{
+  submit(): void{
     if(this.curSurvey) {
       const useranswers: any[] = [];
       this.curSurvey.questions.map((question: any) => {

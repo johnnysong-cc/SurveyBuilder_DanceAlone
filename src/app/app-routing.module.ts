@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { RegComponent } from './components/reg/reg.component';
-import { LoginComponent } from './components/login/login.component';
-import { LayoutUserComponent } from './components/layout-user/layout-user.component';
-import { LayoutAnoComponent } from './components/layout-ano/layout-ano.component';
+import { RegComponent } from './survey-builder/components/reg/reg.component';
+import { LoginComponent } from './survey-builder/components/login/login.component';
+import { LayoutUserComponent } from './survey-builder/components/layout-user/layout-user.component';
+import { LayoutAnoComponent } from './survey-builder/components/layout-ano/layout-ano.component';
 
 const routes: Routes = [
   /**

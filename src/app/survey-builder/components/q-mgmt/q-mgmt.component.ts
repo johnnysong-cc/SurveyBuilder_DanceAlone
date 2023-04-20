@@ -93,6 +93,15 @@ export class QMgmtComponent implements OnInit {
   //#endregion
 
   //#region Delete a question
+  removeChoice(i: {id: number; controlInstance: string}, e: MouseEvent) {
+    e.preventDefault();
+    if (this.listOfControl.length > 1) {
+      const index = this.listOfControl.indexOf(i);
+      this.listOfControl.splice(index, 1);
+      this.validateForm.removeControl(i.controlInstance);
+    }
+  }
+  
   deleteQuestion(item: any) {
     this.infoService.deleteQuestion(item._id).subscribe({
       next: res => this.viewMyQuestions(),
